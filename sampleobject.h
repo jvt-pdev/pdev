@@ -2,6 +2,7 @@
 #ifndef SAMPLEOBJECT_H
 #define SAMPLEOBJECT_H
 #include "reflection.h"
+#include "standardfilesystem.h"
 
 /*
 	SampleObject.definition
@@ -48,6 +49,8 @@ private:
 public:
 
 	void myCustomFunction();
+	void Load(SampleObject obj);
+	void Save(StandardFileSystem fs, const char * filename);
 // END: Custom Code
 
 };

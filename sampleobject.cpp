@@ -1,6 +1,7 @@
 
 // BEGIN: Generated from SampleObject.definition
 #include "sampleobject.h"
+#include "standardfilesystem.h"
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
@@ -29,5 +30,99 @@ SampleObject::~SampleObject()
 void SampleObject::myCustomFunction()
 {
 	std::cout << "Custom Function!" << std::endl;
+}
+void SampleObject::Load(SampleObject obj) {
+
+}
+void SampleObject::Save(StandardFileSystem fs, const char* filename) {
+	const char* newline = "\n";
+	const char* space = " ";
+
+	if (fs.fileExists(filename))
+	{
+		fs.deleteFile(filename);
+	}
+
+	IFile* createdFile = fs.createFile(filename);
+	if (!createdFile)
+	{
+		std::cout << "Failed to create a file" << std::endl;
+		return;
+	}
+
+	std::string myInt = std::to_string(this->m_MyIntVariable);
+	const char* myIntChar = myInt.c_str();
+	std::string myFloat = std::to_string(this->m_MyFloatVariable);
+	const char* myFloatChar = myFloat.c_str();
+	std::string myDouble = std::to_string(this->m_MyDoubleVariable);
+	const char* myDoubleChar = myDouble.c_str();
+
+	const char* myBool = "true\n";
+
+	if (this->m_MyBoolVariable != true) 
+	{
+		const char* myBool = "false";
+	}
+
+	if (!createdFile->write(myIntChar, strlen(myIntChar)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(newline, strlen(newline)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(myBool, strlen(myBool)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(myFloatChar, strlen(myFloatChar)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(newline, strlen(newline)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(myDoubleChar, strlen(myDoubleChar)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	if (!createdFile->write(newline, strlen(newline)))
+	{
+		std::cout << "Failed to write to file" << std::endl;
+	}
+
+	for (int count = 0; count < (sizeof(this->m_MyArray) / sizeof(*this->m_MyArray)); count++) {
+		std::string myArray = std::to_string(this->m_MyArray[count]);
+		const char* myArrayChar = myArray.c_str();
+		if (count+1 == (sizeof(this->m_MyArray) / sizeof(*this->m_MyArray))) 
+		{
+			if (!createdFile->write(myArrayChar, strlen(myArrayChar) + 1))
+			{
+				std::cout << "Failed to write to file" << std::endl;
+			}
+		}
+		else 
+		{
+			if (!createdFile->write(myArrayChar, strlen(myArrayChar)))
+			{
+				std::cout << "Failed to write to file" << std::endl;
+			}
+			if (!createdFile->write(space, strlen(space)))
+			{
+				std::cout << "Failed to write to file" << std::endl;
+			}
+
+		}
+		
+	}
+
 }
 // END: Custom Code 
