@@ -2,6 +2,7 @@
 // BEGIN: Generated from SampleObject.definition
 #include "sampleobject.h"
 #include "standardfilesystem.h"
+#include "sstream"
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
@@ -31,8 +32,57 @@ void SampleObject::myCustomFunction()
 {
 	std::cout << "Custom Function!" << std::endl;
 }
-void SampleObject::Load(SampleObject obj) {
+void SampleObject::Load(StandardFileSystem fs, const char* filename) {
+	int count = 0;
+	this->m_MyBoolVariable = false;
+	
+	IFile* openedFile = fs.openFile(filename);
+	if (!openedFile)
+	{
+		std::cout << "Failed to open file" << std::endl;
+	}
+	size_t size = openedFile->length();
+	char* destBuffer = new char[size];
 
+	if (!openedFile->read(destBuffer, size))
+	{
+		std::cout << "Failed to read from file!" << std::endl;
+	}
+	else
+	{
+		std::string dataString(destBuffer);
+
+		std::istringstream is(dataString);
+		std::string part;
+		while (getline(is, part, '\n'))
+		{
+			if (part == "true") {
+				this->m_MyBoolVariable = true;
+			}
+			else if (count == 4) {
+				std::istringstream ia(part);
+				std::string element;
+				int i = 0;
+				while (getline(ia, element, ' ')) {
+					m_MyArray[i] = std::stoi(element);
+					i++;
+				}
+			}
+			else
+			{
+				switch (count) 
+				{
+					case 0: this->m_MyIntVariable = std::stoi(part);
+					case 2: this->m_MyFloatVariable = std::stoi(part);
+					case 3: this->m_MyDoubleVariable = std::stoi(part);
+				}
+			}
+			count++;
+		}
+	}
+
+	// Close the file
+	delete openedFile;
 }
 void SampleObject::Save(StandardFileSystem fs, const char* filename) {
 	const char* newline = "\n";
@@ -61,7 +111,7 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename) {
 
 	if (this->m_MyBoolVariable != true) 
 	{
-		const char* myBool = "false";
+		 myBool = "false";
 	}
 
 	if (!createdFile->write(myIntChar, strlen(myIntChar)))
@@ -123,6 +173,8 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename) {
 		}
 		
 	}
+
+	delete createdFile;
 
 }
 // END: Custom Code 

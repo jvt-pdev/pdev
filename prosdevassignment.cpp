@@ -162,7 +162,7 @@ void reflectionExample()
 	// Test Load
 	std::cout << "Testing Load..." << std::endl;
 	SampleObject newObj;
-	//newObj.Load(fs, "sampleObj.dat");
+	newObj.Load(fs, "sampleObj.dat");
 	showVars(newObj);
 	std::cout << "======================================================" << std::endl;
 }
