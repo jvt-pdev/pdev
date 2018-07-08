@@ -111,7 +111,7 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename) {
 
 	if (this->m_MyBoolVariable != true) 
 	{
-		 myBool = "false";
+		 myBool = "false\n";
 	}
 
 	if (!createdFile->write(myIntChar, strlen(myIntChar)))
