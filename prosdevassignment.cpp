@@ -21,7 +21,7 @@ void fileSystemExample()
 {
 	std::cout << "FILE SYSTEM EXAMPLE" << std::endl;
 	std::cout << "======================================================" << std::endl;
-	StandardFileSystem* fs = new StandardFileSystem("D:/test");
+	StandardFileSystem* fs = new StandardFileSystem("C:/test");
 
 	// If newfile.txt exists, delete it
 	if (fs->fileExists("newfile.txt"))
@@ -156,13 +156,13 @@ void reflectionExample()
 
 	// Test Save
 	std::cout << "Testing Save..." << std::endl;
-	//StandardFileSystem fs("D:/test");
-	//obj.Save(fs, "sampleObj.dat");
+	StandardFileSystem fs("C:/test");
+	obj.Save(fs, "sampleObj.dat");
 
 	// Test Load
 	std::cout << "Testing Load..." << std::endl;
 	SampleObject newObj;
-	//newObj.Load(fs, "sampleObj.dat");
+	newObj.Load(fs, "sampleObj.dat");
 	showVars(newObj);
 	std::cout << "======================================================" << std::endl;
 }
